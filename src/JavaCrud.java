@@ -26,6 +26,7 @@ public class JavaCrud {
     Connection con;
     PreparedStatement pst;
 
+
     public JavaCrud() {
         Connect();
 
@@ -44,10 +45,7 @@ public class JavaCrud {
                     pst.setString(2, price);
                     pst.setString(3, qty);
                     pst.executeUpdate();
-                    JOptionPane.showMessageDialog(null, "Product added!!!");
-                    txtName.setText("");
-                    txtPrice.setText("");
-                    txtQty.setText("");
+                    clearFields("Product added!!!");
                     txtName.requestFocus();
                 } catch (SQLException e1) {
                     e1.printStackTrace();
@@ -65,7 +63,7 @@ public class JavaCrud {
                     pst.setString(1, pid);
                     ResultSet rs = pst.executeQuery();
 
-                    if (rs.next() == true) {
+                    if (rs.next()) {
                         String name = rs.getString(1);
                         String price = rs.getString(2);
                         String qty = rs.getString(3);
@@ -74,10 +72,7 @@ public class JavaCrud {
                         txtPrice.setText(price);
                         txtQty.setText(qty);
                     } else {
-                        txtName.setText("");
-                        txtPrice.setText("");
-                        txtQty.setText("");
-                        JOptionPane.showMessageDialog(null, "Invalid product ID!");
+                        clearFields("Invalid product ID!");
                     }
 
                 } catch (SQLException e1) {
@@ -104,18 +99,13 @@ public class JavaCrud {
                     pst.setString(4, pid);
 
                     pst.executeUpdate();
-                    JOptionPane.showMessageDialog(null, "Product Updated!!!");
-                    txtName.setText("");
-                    txtPrice.setText("");
-                    txtQty.setText("");
-                    txtpid.setText("");
-                    txtName.requestFocus();
-
+                    clearFields("Product Updated!!!");
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
             }
         });
+
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -127,19 +117,20 @@ public class JavaCrud {
                     pst.setString(1, pid);
 
                     pst.executeUpdate();
-                    JOptionPane.showMessageDialog(null, "Product Deleted!!!");
-                    txtName.setText("");
-                    txtPrice.setText("");
-                    txtQty.setText("");
-                    txtpid.setText("");
-                    txtName.requestFocus();
-
+                    clearFields("Product Deleted!!!");
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
-
             }
         });
+    }
+
+    public void clearFields(String okMessage) {
+        JOptionPane.showMessageDialog(null, okMessage);
+        txtName.setText("");
+        txtPrice.setText("");
+        txtQty.setText("");
+        txtpid.setText("");
     }
 
     public void Connect(){
